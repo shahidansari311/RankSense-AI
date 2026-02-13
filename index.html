@@ -8,284 +8,239 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Google Fonts: JetBrains Mono for that coding vibe -->
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-
-    <title>RankSense.AI // ENTERPRISE_CORE</title>
+    <title>RankSense AI | Resume Intelligence</title>
 
     <style>
-        :root {
-            --neon-green: #0aff0a;
-            --dark-green: #003300;
-            --bg-black: #050505;
-            --grid-line: #001a00;
-        }
-
         body {
-            background-color: var(--bg-black);
-            color: var(--neon-green);
-            font-family: 'JetBrains Mono', monospace;
-            background-image:
-                linear-gradient(var(--grid-line) 1px, transparent 1px),
-                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-            background-size: 20px 20px;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
         }
 
-        /* CRT Scanline Effect */
-        .scanlines::before {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 50;
-            background-size: 100% 2px, 3px 100%;
-            pointer-events: none;
+        .card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
         }
 
-        .glow-text {
-            text-shadow: 0 0 5px var(--neon-green);
+        .btn-primary {
+            background-color: #2563eb;
+            color: white;
+            transition: all 0.2s;
         }
 
-        .hacker-border {
-            border: 1px solid var(--neon-green);
-            box-shadow: 0 0 10px var(--dark-green);
+        .btn-primary:hover {
+            background-color: #1d4ed8;
         }
 
-        /* Glitch Animation */
-        @keyframes glitch {
-            0% {
-                transform: translate(0);
-            }
-
-            20% {
-                transform: translate(-2px, 2px);
-            }
-
-            40% {
-                transform: translate(-2px, -2px);
-            }
-
-            60% {
-                transform: translate(2px, 2px);
-            }
-
-            80% {
-                transform: translate(2px, -2px);
-            }
-
-            100% {
-                transform: translate(0);
-            }
-        }
-
-        .glitch:hover {
-            animation: glitch 0.2s cubic-bezier(.25, .46, .45, .94) both infinite;
-        }
-
-        ::-webkit-scrollbar {
+        .status-dot {
+            height: 8px;
             width: 8px;
+            border-radius: 50%;
+            display: inline-block;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: var(--neon-green);
-            border-radius: 0;
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
         }
 
-        ::-webkit-scrollbar-track {
-            background: var(--dark-green);
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
         }
 
-        .modal-bg {
-            background: rgba(0, 20, 0, 0.95);
-            backdrop-filter: blur(5px);
+        .modal-overlay {
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(4px);
         }
     </style>
 </head>
 
-<body class="h-screen flex flex-col overflow-hidden scanlines">
+<body class="h-screen flex flex-col overflow-hidden">
 
-    <!-- Header -->
-    <header class="p-4 border-b border-green-900 flex justify-between items-center bg-black/80 backdrop-blur z-10">
-        <div class="flex items-center gap-4">
-            <div class="w-3 h-3 bg-green-500 animate-pulse rounded-full"></div>
-            <h1 class="text-2xl font-bold tracking-widest glow-text glitch cursor-default">RANKSENSE<span
-                    class="opacity-50">_ENTERPRISE</span></h1>
+    <nav class="bg-white border-b border-slate-200 px-6 py-3 flex justify-between items-center z-20">
+        <div class="flex items-center gap-3">
+            <div class="bg-blue-600 p-2 rounded-lg">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <h1 class="text-xl font-bold text-slate-800 tracking-tight">RankSense<span class="text-blue-600">.AI</span></h1>
         </div>
-        <div class="text-xs space-x-4 opacity-70">
-            <span>MEM: <span id="mem-usage">24GB</span></span>
-            <span>NET: <span id="net-status" class="text-green-500">ONLINE</span></span>
-            <span>UPTIME: <span id="uptime">00:00:00</span></span>
-            <button onclick="exportCSV()"
-                class="border border-green-500 px-2 py-1 text-[10px] hover:bg-green-900 transition-colors">>>>
-                EXPORT_REPORT</button>
+        
+        <div class="flex items-center gap-6">
+            <div class="hidden md:flex items-center gap-4 text-sm text-slate-500 font-medium">
+                <div class="flex items-center gap-2">
+                    <span id="net-status-dot" class="status-dot bg-green-500"></span>
+                    <span id="net-status">System Online</span>
+                </div>
+                <div class="h-4 w-px bg-slate-200"></div>
+                <span>Uptime: <span id="uptime" class="text-slate-700">00:00:00</span></span>
+            </div>
+            <button onclick="exportCSV()" class="btn-primary px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                Export Report
+            </button>
         </div>
-    </header>
+    </nav>
 
-    <!-- Main Grid -->
-    <main class="flex-1 grid grid-cols-12 gap-0 overflow-hidden relative">
-
-        <!-- Left Panel: Upload & Radar -->
-        <aside
-            class="col-span-12 lg:col-span-4 border-r border-green-900 flex flex-col bg-black/50 p-6 gap-6 overflow-y-auto z-10">
-
-            <!-- Upload Module -->
-            <div class="hacker-border p-6 text-center cursor-pointer hover:bg-green-900/10 transition-colors group relative overflow-hidden"
-                onclick="document.getElementById('fileInput').click()">
-                <div class="absolute top-0 left-0 w-2 h-2 border-t border-l border-green-500"></div>
-                <div class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-green-500"></div>
-
-                <div class="text-4xl mb-4 opacity-80 group-hover:scale-110 transition-transform">>>>_INGEST</div>
-                <p class="text-xs tracking-widest uppercase">Upload Candidate Dossiers</p>
-                <p class="text-[10px] opacity-50 mt-2">Format: PDF/DOCX</p>
-                <p class="text-[10px] opacity-50 mt-2">Format: PDF/DOCX</p>
-                <input type="file" id="fileInput" class="hidden" multiple onchange="handleFiles(this.files)">
+    <main class="flex-1 flex overflow-hidden">
+        
+        <aside class="w-80 border-r border-slate-200 bg-white p-6 flex flex-col gap-6 overflow-y-auto custom-scrollbar">
+            
+            <div class="space-y-3">
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Upload Candidates</label>
+                <div class="border-2 border-dashed border-slate-200 rounded-xl p-6 text-center hover:border-blue-400 hover:bg-blue-50 transition-all cursor-pointer group"
+                     onclick="document.getElementById('fileInput').click()">
+                    <div class="bg-slate-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-blue-100">
+                        <svg class="w-6 h-6 text-slate-500 group-hover:text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                    </div>
+                    <p class="text-sm font-semibold text-slate-700">Click to upload</p>
+                    <p class="text-xs text-slate-400 mt-1">PDF or DOCX files</p>
+                    <input type="file" id="fileInput" class="hidden" multiple onchange="handleFiles(this.files)">
+                </div>
             </div>
 
-            <!-- JD Input -->
-            <div class="hacker-border p-4">
-                <h3 class="text-sm font-bold border-b border-green-900 pb-2 mb-2">/// TARGET_PROFILE (JD)</h3>
+            <div class="space-y-3">
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Job Description</label>
                 <textarea id="jdInput"
-                    class="w-full h-24 bg-black border border-green-900 text-[10px] p-2 text-green-500 focus:outline-none focus:border-green-500 placeholder-green-900"
-                    placeholder="PASTE_JOB_DESCRIPTION_HERE..."></textarea>
+                    class="w-full h-32 bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                    placeholder="Paste the target job requirements here to enable gap analysis..."></textarea>
             </div>
 
-            <!-- Radar Chart -->
-            <div class="hacker-border p-4 flex-1 min-h-[350px] relative">
-                <h3 class="text-sm font-bold border-b border-green-900 pb-2 mb-4">/// COMPETENCY_MATRIX</h3>
-                <div class="relative h-64">
+            <div class="card p-4 space-y-4">
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Candidate Matrix</label>
+                <div class="h-48">
                     <canvas id="radarChart"></canvas>
                 </div>
-                <div class="mt-4 grid grid-cols-2 gap-2 text-[10px]">
-                    <div class="flex justify-between"><span>INTERNSHIPS:</span> <span id="stat-intern"
-                            class="font-bold">0</span></div>
-                    <div class="flex justify-between"><span>PROJECTS:</span> <span id="stat-proj"
-                            class="font-bold">0</span></div>
-                    <div class="flex justify-between"><span>SKILLS:</span> <span id="stat-skill"
-                            class="font-bold">0</span></div>
-                    <div class="flex justify-between"><span>CGPA:</span> <span id="stat-cgpa"
-                            class="font-bold">0.0</span></div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-slate-50 p-2 rounded-lg">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase">Internships</p>
+                        <p id="stat-intern" class="text-lg font-bold text-slate-700">0</p>
+                    </div>
+                    <div class="bg-slate-50 p-2 rounded-lg">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase">Projects</p>
+                        <p id="stat-proj" class="text-lg font-bold text-slate-700">0</p>
+                    </div>
                 </div>
             </div>
 
-            <!-- Team Xnords Branding -->
-            <div class="mt-auto pt-4 border-t border-green-900/30 text-center opacity-50 text-[10px]">
-                <p>ENGINEERED BY <span class="font-bold text-green-400">TEAM XNORDS</span></p>
-                <p>HACKATHON_V2026 // PRODUCTION_BUILD</p>
+            <div class="mt-auto pt-4 text-center">
+                <p class="text-[10px] text-slate-400 font-medium italic">Powered by Team Xnords</p>
             </div>
         </aside>
 
-        <!-- Right Panel: Matrix & Output -->
-        <section class="col-span-12 lg:col-span-8 flex flex-col bg-black/20 relative z-0">
+        <section class="flex-1 flex flex-col min-w-0 bg-slate-50">
+            
+            <div class="flex-1 p-6 overflow-hidden flex flex-col">
+                <div class="flex justify-between items-end mb-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-800">Candidate Registry</h2>
+                        <p class="text-sm text-slate-500"><span id="record-count">0</span> candidates processed</p>
+                    </div>
+                    <button onclick="purgeDB()" class="text-xs font-semibold text-red-500 hover:text-red-700 transition-colors">Clear All Records</button>
+                </div>
 
-            <!-- Matrix Rain Canvas Background -->
-            <div class="absolute inset-0 pointer-events-none opacity-10"
-                style="background: repeating-linear-gradient(0deg, transparent, transparent 19px, #0f0 20px);"></div>
-
-            <!-- Table Header -->
-            <div class="p-4 border-b border-green-900 bg-green-900/5 flex justify-between items-center">
-                <h2 class="text-sm font-bold uppercase">/// CANDIDATE_REGISTRY</h2>
-                <div class="text-[10px]">RECORDS: <span id="record-count">0</span></div>
+                <div class="card flex-1 overflow-hidden flex flex-col">
+                    <div class="overflow-y-auto custom-scrollbar">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-slate-50 border-b border-slate-200 sticky top-0">
+                                <tr>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider w-20">Rank</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Candidate Name</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Match Score</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Top Skills</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultsTable" class="divide-y divide-slate-100 bg-white">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
-            <!-- Results Table -->
-            <div class="flex-1 overflow-y-auto p-4">
-                <table class="w-full text-left text-xs font-mono border-collapse">
-                    <thead class="text-green-700 border-b border-green-800">
-                        <tr>
-                            <th class="p-2">#RANK</th>
-                            <th class="p-2">FILENAME</th>
-                            <th class="p-2">PERFORMANCE_INDEX</th>
-                            <th class="p-2 w-1/3">KEY_SIGNATURES</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resultsTable" class="divide-y divide-green-900/30">
-                        <!-- Rows injected here -->
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Terminal Log -->
-            <div class="h-32 border-t border-green-900 bg-black p-2 font-mono text-[11px] overflow-y-auto"
-                id="terminal-container">
-                <div id="terminal-logs" class="space-y-0.5">
-                    <p class="opacity-50">root@ranksense-ent:~# ./init_core.sh</p>
-                    <p class="opacity-50">System modules... [OK]</p>
+            <div class="h-32 bg-white border-t border-slate-200 p-4 flex flex-col">
+                <div class="flex items-center gap-2 mb-2">
+                    <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">System Activity</span>
+                </div>
+                <div id="terminal-logs" class="flex-1 overflow-y-auto custom-scrollbar text-xs space-y-1 font-medium text-slate-600">
+                    <p class="text-blue-600">Waiting for candidate ingestion...</p>
                 </div>
             </div>
         </section>
 
-        <!-- Candidate Detail Inspector (Modal) -->
-        <div id="candidateInspector"
-            class="absolute inset-0 z-50 modal-bg hidden flex flex-col p-12 transition-all duration-300">
-            <div class="hacker-border bg-black flex flex-col h-full relative p-6">
-                <button onclick="closeInspector()"
-                    class="absolute top-4 right-4 border border-red-500 text-red-500 px-3 py-1 hover:bg-red-900">X
-                    CLOSE</button>
+        <div id="candidateInspector" class="fixed inset-0 z-50 modal-overlay hidden flex items-center justify-center p-4">
+            <div class="bg-white w-full max-w-5xl h-[85vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+                
+                <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-start">
+                    <div>
+                        <div class="flex items-center gap-3 mb-1">
+                            <h2 class="text-2xl font-bold text-slate-800" id="inspector-title">Candidate Details</h2>
+                            <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded" id="inspector-score-badge">0.0</span>
+                        </div>
+                        <p class="text-sm text-slate-500" id="inspector-filename-sub">resume_file.pdf</p>
+                    </div>
+                    <button onclick="closeInspector()" class="p-2 hover:bg-slate-100 rounded-full transition-colors">
+                        <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
 
-                <h2 class="text-2xl font-bold border-b border-green-800 pb-4 mb-4" id="inspector-title">
-                    CANDIDATE_DETAILS</h2>
-
-                <div class="grid grid-cols-2 gap-8 flex-1 overflow-hidden">
-                    <!-- Left: Text Snippet -->
-                    <div class="flex flex-col h-full gap-4">
-
-                        <!-- Gap Analysis (Conditional) -->
-                        <div id="inspector-gap-analysis" class="hidden flex-1 flex flex-col min-h-0">
-                            <h3 class="text-sm font-bold mb-2">/// GAP_ANALYSIS (JD)</h3>
-                            <div class="hacker-border p-2 flex-1 overflow-y-auto bg-black/50 text-[10px]">
-                                <div class="mb-2">
-                                    <span class="text-green-500 font-bold">MATCHED_KEYWORDS:</span>
-                                    <div id="inspector-matches" class="flex flex-wrap gap-1 mt-1"></div>
+                <div class="flex-1 overflow-y-auto p-8 flex flex-col lg:flex-row gap-8">
+                    
+                    <div class="flex-1 flex flex-col gap-6">
+                        <div id="inspector-gap-analysis" class="hidden">
+                            <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                                Job Description Alignment
+                            </h3>
+                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                                <div class="mb-4">
+                                    <p class="text-[10px] font-bold text-green-600 uppercase mb-2">Matched Skills</p>
+                                    <div id="inspector-matches" class="flex flex-wrap gap-2"></div>
                                 </div>
-                                <div>
-                                    <span class="text-red-500 font-bold">MISSING_KEYWORDS:</span>
-                                    <div id="inspector-missing" class="flex flex-wrap gap-1 mt-1"></div>
+                                <div class="mb-4">
+                                    <p class="text-[10px] font-bold text-red-500 uppercase mb-2">Missing Requirements</p>
+                                    <div id="inspector-missing" class="flex flex-wrap gap-2"></div>
                                 </div>
-                                <div id="inspector-coverage" class="mt-2 text-xs font-bold text-blue-400"></div>
+                                <div id="inspector-coverage" class="text-sm font-bold text-blue-600 pt-2 border-t border-slate-200"></div>
                             </div>
                         </div>
 
-                        <div class="flex-1 flex flex-col min-h-0">
-                            <h3 class="text-sm font-bold mb-2">/// EXTRACTED_SNIPPET (EVIDENCE)</h3>
-                            <div class="bg-green-900/10 p-4 font-mono text-[10px] overflow-y-auto flex-1 border border-green-900/50"
-                                id="inspector-snippet">
-                                Loading...
+                        <div>
+                            <h3 class="text-sm font-bold text-slate-800 mb-3">Resume Content Snippet</h3>
+                            <div class="bg-slate-900 rounded-xl p-6 text-slate-300 font-mono text-xs leading-relaxed h-64 overflow-y-auto custom-scrollbar" id="inspector-snippet">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Right: Metrics -->
-                    <div class="flex flex-col space-y-4">
-                        <h3 class="text-sm font-bold mb-2">/// PERFORMANCE_METRICS</h3>
+                    <div class="w-full lg:w-80 flex flex-col gap-6">
+                        <h3 class="text-sm font-bold text-slate-800">Performance Metrics</h3>
                         <div class="grid grid-cols-2 gap-4">
-                            <div class="p-4 border border-green-800">
-                                <div class="text-[10px] opacity-70">TOTAL SCORE</div>
-                                <div class="text-3xl font-bold" id="inspector-score">0.0</div>
+                            <div class="card p-4 text-center">
+                                <p class="text-[10px] font-bold text-slate-400 uppercase">Total Score</p>
+                                <p class="text-2xl font-black text-blue-600" id="inspector-score">0.0</p>
                             </div>
-                            <div class="p-4 border border-green-800">
-                                <div class="text-[10px] opacity-70">INTERNSHIPS</div>
-                                <div class="text-xl font-bold" id="inspector-intern">0</div>
+                            <div class="card p-4 text-center">
+                                <p class="text-[10px] font-bold text-slate-400 uppercase">Internships</p>
+                                <p class="text-2xl font-black text-slate-700" id="inspector-intern">0</p>
                             </div>
-                            <div class="p-4 border border-green-800">
-                                <div class="text-[10px] opacity-70">PROJECTS</div>
-                                <div class="text-xl font-bold" id="inspector-proj">0</div>
+                            <div class="card p-4 text-center">
+                                <p class="text-[10px] font-bold text-slate-400 uppercase">Projects</p>
+                                <p class="text-2xl font-black text-slate-700" id="inspector-proj">0</p>
                             </div>
-                            <div class="p-4 border border-green-800">
-                                <div class="text-[10px] opacity-70">SKILL_COUNT</div>
-                                <div class="text-xl font-bold" id="inspector-skill">0</div>
+                            <div class="card p-4 text-center">
+                                <p class="text-[10px] font-bold text-slate-400 uppercase">Skills Found</p>
+                                <p class="text-2xl font-black text-slate-700" id="inspector-skill">0</p>
                             </div>
                         </div>
 
-                        <div class="mt-4">
-                            <div class="text-[10px] opacity-70 mb-1">SKILLS_DETECTED</div>
-                            <div class="text-[10px] text-green-300 flex flex-wrap gap-2" id="inspector-skills-list">
-                                <!-- skills tags -->
-                            </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase mb-3">Identified Skills</p>
+                            <div class="flex flex-wrap gap-2" id="inspector-skills-list"></div>
                         </div>
                     </div>
                 </div>
@@ -295,11 +250,10 @@
     </main>
 
     <script>
-        // --- Hacker Stats ---
+        // --- Timer ---
         setInterval(() => {
             const now = new Date();
             document.getElementById('uptime').innerText = now.toISOString().split('T')[1].split('.')[0];
-            document.getElementById('mem-usage').innerText = Math.floor(Math.random() * 5 + 10) + "GB";
         }, 1000);
 
         // --- Config ---
@@ -310,24 +264,23 @@
         let processedCount = 0;
         let ws = null;
         let reconnectInterval = null;
-        let allCandidates = []; // Store all data for sorting and export
+        let allCandidates = [];
 
         function connectWebSocket() {
             ws = new WebSocket(wsUrl);
 
             ws.onopen = () => {
-                document.getElementById('net-status').innerText = "ONLINE";
-                document.getElementById('net-status').classList.remove('text-red-500');
-                document.getElementById('net-status').classList.add('text-green-500');
-                addLog("> Uplink established.");
+                document.getElementById('net-status').innerText = "System Online";
+                document.getElementById('net-status-dot').classList.replace('bg-red-500', 'bg-green-500');
+                addLog("✓ WebSocket uplink established.");
                 if (reconnectInterval) { clearInterval(reconnectInterval); reconnectInterval = null; }
             };
 
             ws.onclose = () => {
-                document.getElementById('net-status').innerText = "OFFLINE";
-                document.getElementById('net-status').classList.replace('text-green-500', 'text-red-500');
+                document.getElementById('net-status').innerText = "System Offline";
+                document.getElementById('net-status-dot').classList.replace('bg-green-500', 'bg-red-500');
                 if (!reconnectInterval) {
-                    addLog("! Link severed. Reattempting handshake...");
+                    addLog("✕ Connection severed. Retrying...");
                     reconnectInterval = setInterval(connectWebSocket, 3000);
                 }
             };
@@ -343,35 +296,33 @@
             };
         }
 
-
-        // Initial Load
         connectWebSocket();
-        fetchCandidates(); // Load history
+        fetchCandidates();
 
         async function fetchCandidates() {
             try {
                 const res = await fetch("http://127.0.0.1:8000/candidates");
                 const data = await res.json();
-                allCandidates = data; // Already sorted from backend
+                allCandidates = data;
                 renderTable();
                 document.getElementById('record-count').innerText = allCandidates.length;
-                if (data.length > 0) addLog(`> Restored ${data.length} records from archive.`);
+                if (data.length > 0) addLog(`ℹ Restored ${data.length} records from database.`);
             } catch (e) {
-                console.log("History fetch failed (backend might be offline yet)");
+                console.log("History fetch failed");
             }
         }
 
         async function purgeDB() {
-            if (!confirm("CONFIRM: WIPE ALL CANDIDATE DATA?")) return;
+            if (!confirm("Confirm: Wipe all candidate data?")) return;
             try {
                 await fetch("http://127.0.0.1:8000/candidates", { method: "DELETE" });
                 allCandidates = [];
                 renderTable();
                 document.getElementById('record-count').innerText = 0;
-                addLog("> DATABASE PURGED.");
-                Toastify({ text: "DATABASE WIPED", backgroundColor: "red" }).showToast();
+                addLog("⚠ Database purged successfully.");
+                Toastify({ text: "DATABASE CLEARED", backgroundColor: "#ef4444" }).showToast();
             } catch (e) {
-                addLog(`! Purge Failed: ${e}`);
+                addLog(`✕ Purge Failed: ${e}`);
             }
         }
 
@@ -382,24 +333,21 @@
                 formData.append("file", files[i]);
                 if (jdText) formData.append("jd_text", jdText);
 
-                addLog(`> Transmitting: ${files[i].name}`);
+                addLog(`↑ Uploading: ${files[i].name}`);
 
                 try {
                     await fetch("http://127.0.0.1:8000/upload", { method: "POST", body: formData });
-                    Toastify({ text: `UPLOADED: ${files[i].name}`, backgroundColor: "#003300", style: { border: "1px solid #0f0", color: "#0f0" } }).showToast();
+                    Toastify({ text: `Processing ${files[i].name}`, backgroundColor: "#2563eb" }).showToast();
                 } catch (e) {
-                    addLog(`! Transmission Failure: ${e}`);
+                    addLog(`✕ Upload Failure: ${e}`);
                 }
             }
         }
 
         function handleCompletion(data) {
-            processedCount++;
-            document.getElementById('record-count').innerText = processedCount;
-
-            // Add to master list and sort
             allCandidates.push(data);
-            allCandidates.sort((a, b) => b.score - a.score); // Descending sort
+            allCandidates.sort((a, b) => b.score - a.score);
+            document.getElementById('record-count').innerText = allCandidates.length;
 
             renderTable();
             updateStats(data);
@@ -411,66 +359,67 @@
 
             allCandidates.forEach((data, index) => {
                 const rank = index + 1;
-                const jdBadge = data.jd_present ? '<span class="text-[8px] border border-green-500 px-1 rounded ml-2">JD_MATCHED</span>' : '';
+                const jdBadge = data.jd_present ? '<span class="ml-2 bg-blue-50 text-blue-600 text-[10px] font-bold px-1.5 py-0.5 rounded border border-blue-100">JD MATCH</span>' : '';
                 const row = `
-                    <tr class="hover:bg-green-900/20 transition-colors font-mono cursor-pointer group border-b border-green-900/20" onclick='openInspector(${index})' onmouseenter='previewCandidate(${index})'>
-                        <td class="p-3 font-bold group-hover:text-white transition-colors">[#${rank.toString().padStart(2, '0')}]</td>
-                        <td class="p-3 text-white">
-                            ${data.filename}
-                            ${jdBadge}
-                        </td>
-                        <td class="p-3">
-                            <div class="flex items-center gap-2">
-                                <div class="h-2 w-24 bg-green-900 rounded-sm overflow-hidden">
-                                    <div class="h-full bg-green-400" style="width: ${data.score}%"></div>
-                                </div>
-                                <span class="font-bold text-green-400">${data.score}</span>
+                    <tr class="hover:bg-slate-50 transition-colors cursor-pointer" onclick='openInspector(${index})' onmouseenter='previewCandidate(${index})'>
+                        <td class="px-6 py-4 font-bold text-slate-400">#${rank.toString().padStart(2, '0')}</td>
+                        <td class="px-6 py-4 font-semibold text-slate-700">
+                            <div class="flex items-center">
+                                ${data.filename}
+                                ${jdBadge}
                             </div>
                         </td>
-                        <td class="p-3 text-[10px] opacity-70 truncate max-w-xs">${data.skills.slice(0, 5).join(', ')}...</td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-16 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                    <div class="h-full bg-blue-500" style="width: ${data.score}%"></div>
+                                </div>
+                                <span class="font-bold text-slate-700 text-sm">${data.score}%</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-xs text-slate-500 truncate max-w-xs">${data.skills.slice(0, 4).join(' • ')}${data.skills.length > 4 ? '...' : ''}</td>
                     </tr>
                 `;
                 resultsTable.innerHTML += row;
             });
         }
 
-        // --- Inspector Logic ---
         function openInspector(index) {
             const data = allCandidates[index];
             document.getElementById('candidateInspector').classList.remove('hidden');
 
-            document.getElementById('inspector-title').innerText = data.filename.toUpperCase();
+            document.getElementById('inspector-title').innerText = data.filename;
+            document.getElementById('inspector-filename-sub').innerText = `ID: ${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
             document.getElementById('inspector-score').innerText = data.score;
+            document.getElementById('inspector-score-badge').innerText = `${data.score}% Match`;
             document.getElementById('inspector-intern').innerText = data.internships;
             document.getElementById('inspector-proj').innerText = data.projects;
             document.getElementById('inspector-skill').innerText = data.skills_count;
-            document.getElementById('inspector-snippet').innerText = data.raw_text || "No snippet data available.";
+            document.getElementById('inspector-snippet').innerText = data.raw_text || "No text evidence found.";
 
-            // Gap Analysis
             const gapSection = document.getElementById('inspector-gap-analysis');
             if (data.jd_analysis && data.jd_analysis.jd_present) {
                 gapSection.classList.remove('hidden');
-
                 const matches = data.jd_analysis.matches || [];
                 const missing = data.jd_analysis.missing || [];
 
                 document.getElementById('inspector-matches').innerHTML = matches.length > 0
-                    ? matches.map(m => `<span class="bg-green-900/50 px-1 border border-green-700 text-green-300">${m}</span>`).join('')
-                    : '<span class="opacity-50">None</span>';
+                    ? matches.map(m => `<span class="bg-green-50 text-green-700 px-2 py-1 rounded-md text-[10px] font-bold border border-green-100">${m}</span>`).join('')
+                    : '<span class="text-xs text-slate-400">No direct matches.</span>';
 
                 document.getElementById('inspector-missing').innerHTML = missing.length > 0
-                    ? missing.slice(0, 20).map(m => `<span class="bg-red-900/50 px-1 border border-red-700 text-red-300">${m}</span>`).join('') + (missing.length > 20 ? '...' : '')
-                    : '<span class="opacity-50">None</span>';
+                    ? missing.slice(0, 15).map(m => `<span class="bg-red-50 text-red-700 px-2 py-1 rounded-md text-[10px] font-bold border border-red-100">${m}</span>`).join('')
+                    : '<span class="text-xs text-slate-400">No missing requirements.</span>';
 
                 const total = matches.length + missing.length;
                 const coverage = total > 0 ? Math.round((matches.length / total) * 100) : 0;
-                document.getElementById('inspector-coverage').innerText = `COVERAGE_SCORE: ${coverage}%`;
+                document.getElementById('inspector-coverage').innerText = `Keyword Coverage: ${coverage}%`;
             } else {
                 gapSection.classList.add('hidden');
             }
 
             const skillsContainer = document.getElementById('inspector-skills-list');
-            skillsContainer.innerHTML = data.skills.map(s => `<span class="border border-green-500 px-1 rounded">${s}</span>`).join('');
+            skillsContainer.innerHTML = data.skills.map(s => `<span class="bg-slate-100 text-slate-600 px-2 py-1 rounded text-[10px] font-semibold">${s}</span>`).join('');
 
             updateRadar(data);
             updateStats(data);
@@ -482,21 +431,17 @@
 
         function exportCSV() {
             if (allCandidates.length === 0) {
-                Toastify({ text: "NO DATA TO EXPORT", backgroundColor: "#330000", style: { border: "1px solid red", color: "red" } }).showToast();
+                Toastify({ text: "No data to export", backgroundColor: "#ef4444" }).showToast();
                 return;
             }
-
             let csvContent = "data:text/csv;charset=utf-8,Rank,Filename,Score,Internships,Projects,Skills,CGPA\n";
-
             allCandidates.forEach((row, index) => {
-                let rowStr = `${index + 1},${row.filename},${row.score},${row.internships},${row.projects},${row.skills_count},${row.cgpa}`;
-                csvContent += rowStr + "\n";
+                csvContent += `${index + 1},${row.filename},${row.score},${row.internships},${row.projects},${row.skills_count},${row.cgpa}\n`;
             });
-
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
             link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "ranksense_report.csv");
+            link.setAttribute("download", "RankSense_Export.csv");
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -505,22 +450,17 @@
         function updateStats(data) {
             document.getElementById('stat-intern').innerText = data.internships;
             document.getElementById('stat-proj').innerText = data.projects;
-            document.getElementById('stat-skill').innerText = data.skills_count;
-            document.getElementById('stat-cgpa').innerText = data.cgpa;
         }
 
-        // --- Radar Chart ---
         const ctx = document.getElementById('radarChart').getContext('2d');
         const radarData = {
-            labels: ['INTERNSHIPS', 'SKILLS', 'PROJECTS', 'ACADEMICS', 'EXPERIENCE'],
+            labels: ['Intern', 'Skills', 'Proj', 'GPA', 'Exp'],
             datasets: [{
-                label: 'COMPETENCY_INDEX',
                 data: [0, 0, 0, 0, 0],
-                backgroundColor: 'rgba(10, 255, 10, 0.2)',
-                borderColor: '#0aff0a',
+                backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                borderColor: '#2563eb',
                 borderWidth: 2,
-                pointBackgroundColor: '#0aff0a',
-                pointBorderColor: '#fff'
+                pointRadius: 0
             }]
         };
 
@@ -532,10 +472,10 @@
                 maintainAspectRatio: false,
                 scales: {
                     r: {
-                        angleLines: { color: '#003300' },
-                        grid: { color: '#003300' },
-                        pointLabels: { color: '#0aff0a', font: { family: 'JetBrains Mono', size: 10 } },
-                        ticks: { display: false, backdropColor: 'transparent' },
+                        grid: { color: '#f1f5f9' },
+                        angleLines: { color: '#f1f5f9' },
+                        pointLabels: { font: { size: 9, weight: 'bold' }, color: '#94a3b8' },
+                        ticks: { display: false },
                         suggestedMin: 0, suggestedMax: 10
                     }
                 },
@@ -544,14 +484,13 @@
         });
 
         function updateRadar(data) {
-            const d = [
+            chart.data.datasets[0].data = [
                 Math.min(data.internships * 5, 10),
                 Math.min(data.skills_count / 2, 10),
                 Math.min(data.projects * 3.3, 10),
                 Math.min(data.cgpa, 10),
                 Math.min(data.experience * 5, 10)
             ];
-            chart.data.datasets[0].data = d;
             chart.update();
         }
 
@@ -559,21 +498,16 @@
             const data = allCandidates[index];
             updateStats(data);
             updateRadar(data);
-            const title = document.querySelector('.hacker-border h3');
-            if (title) title.innerHTML = "/// MATRIX: <span class='text-white'>" + data.filename.substring(0, 15) + "...</span>";
         }
 
         function addLog(msg) {
             const p = document.createElement('p');
             p.innerText = msg;
-            if (msg.includes('!')) p.style.color = 'red';
-            else if (msg.includes('>')) p.style.color = '#0aff0a';
-            else p.style.color = '#00cc00';
-
-            terminalLogs.appendChild(p);
-            document.getElementById('terminal-container').scrollTop = terminalLogs.scrollHeight;
+            if (msg.includes('✕')) p.classList.add('text-red-500');
+            else if (msg.includes('✓')) p.classList.add('text-green-600');
+            
+            terminalLogs.prepend(p);
         }
     </script>
 </body>
-
 </html>
